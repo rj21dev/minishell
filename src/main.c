@@ -83,6 +83,12 @@ int	main(int argc, char **argv, char **envp)
 		push_spaces(&cmdline);
 		list = lexer(&info->env, cmdline);
 		// print_tokens(list);
+		if (!validator(list))
+		{
+			ft_lstclear(&list, free);
+			free(cmdline);
+			continue;
+		}
 		parser(&list, info);
 		ft_lstclear(&list, free);
 		// printf("%d\n", info->append);
@@ -93,8 +99,6 @@ int	main(int argc, char **argv, char **envp)
 		// printf("%s\n", info->outfile);
 		// printf("%s %s\n", info->commands[0].argv[0], info->commands[0].argv[1]);
 		// printf("%s %s\n", info->commands[1].argv[0], info->commands[1].argv[1]);
-
-		// TODO token validator
 		executor(info);
 		free(cmdline);
 	}

@@ -61,23 +61,22 @@ static char	**create_paths(char *cmd, char **envp)
 	while (paths[++i])
 		full_paths[i] = ft_strjoin(paths[i], cmd);
 	full_paths[i] = cmd;
-	full_paths[i + 1] = 0;
+	full_paths[i + 1] = NULL;
 	return (full_paths);
 }
 
-int	run_bin(int num, t_info *info)
+void	run_bin(int num, t_info *info)
 {
 	int			i;
 
 	info->paths = create_paths(info->commands[num].argv[0], info->envp);
-	i = -1;
-	while (info->paths[++i])
+	i = 0;
+	while (info->paths[i])
 	{
 		execve(info->paths[i], info->commands[num].argv, info->envp);
+		i++;
 	}
-	return (0);
 }
-
 
 void	executor(t_info *info)
 {

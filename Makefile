@@ -2,7 +2,8 @@ NAME		= minishell
 SRCS_DIR	= src/
 OBJS_DIR	= obj/
 INCS_DIR	= include
-SRCS_F		= main.c space_pusher.c env.c env_utils.c dollar_expander.c lexer.c quotes_expander.c utils_str.c debug_print.c parser.c parser_utils.c executor.c heredoc.c
+SRCS_F		= main.c space_pusher.c env.c env_utils.c dollar_expander.c lexer.c quotes_expander.c utils_str.c \
+					debug_print.c parser.c parser_utils.c executor.c heredoc.c validator.c
 SRCS		= $(addprefix $(SRCS_DIR), $(SRCS_F))
 OBJS_F		= $(patsubst %.c, %.o, $(SRCS_F))
 DEPS_F		= $(patsubst %.c, %.d, $(SRCS_F))

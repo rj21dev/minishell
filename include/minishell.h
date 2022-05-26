@@ -5,7 +5,8 @@
 # include <readline/readline.h>
 # include <readline/history.h>
 # include <signal.h>
-#	include <fcntl.h>
+# include <fcntl.h>
+# include <sys/wait.h>
 
 extern void rl_replace_line(const char *, int);
 extern void rl_clear_history(void);
@@ -64,6 +65,7 @@ void		env_clear(t_env_list **env, void (*del)(void *));
 
 t_list	*lexer(t_env_list **env, char *line);
 void	parser(t_list **token_lst, t_info *info);
+int		validator(t_list *token_lst);
 int		lst_cnt(char *str, t_list *token_lst);
 int		count_cmd(t_list *token_lst);
 t_cmd	*pipe_cut(t_list *toks, t_cmd *pipes, t_info *info);

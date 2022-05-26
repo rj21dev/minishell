@@ -81,6 +81,8 @@ static void find_in_file(t_list *token_lst, t_info *info)
 
 void	parser(t_list **token_lst, t_info *info)
 {
+	if (!*token_lst)
+		return ;
 	find_out_file(*token_lst, info);
 	find_in_file(*token_lst, info);
 	skip_here_doc(token_lst, info);
