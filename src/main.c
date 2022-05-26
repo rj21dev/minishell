@@ -10,35 +10,55 @@ static void	sig_handler(int sig)
 	rl_redisplay();
 }
 
-int	find_not_pair_quote(const char *str)
+void	init(t_info **info, char **envp)
 {
-	while (*str)
+	*info = (t_info *)malloc(sizeof(t_info));
+	ft_memset(*info, 0, sizeof(t_info));
+	(*info)->env = init_env(envp);
+	(*info)->envp = set_envp((*info)->env);
+	(*info)->infile = NULL;
+	(*info)->outfile = NULL;
+	(*info)->here_doc = NULL;
+	(*info)->commands = NULL;
+	(*info)->append = 0;
+	signal(SIGINT, sig_handler);
+	signal(SIGQUIT, SIG_IGN);
+}
+
+void	free_commands(t_info **info)
+{
+	int	i;
+
+	i = 0;
+	if ((*info)->commands)
 	{
-		if (*str == '\'')
+		while ((*info)->commands[i].argv)
 		{
-			str++;
-			while (*str && *str != '\'')
-				str++;
-			if (!*str)
-				return (1);
+			ft_split_free((*info)->commands[i].argv);
+			i++;
 		}
-		if (*str == '\"')
-		{
-			str++;
-			while (*str && *str != '\"')
-				str++;
-			if (!*str)
-				return (1);
-		}
-		str++;
 	}
-	return (0);
+}
+
+void	re_init(t_info **info)
+{
+	if ((*info)->infile)
+		free((*info)->infile);
+	if ((*info)->outfile)
+		free((*info)->outfile);
+	if ((*info)->here_doc)
+		free((*info)->here_doc);
+	// if ((*info)->commands)
+	// 	free_commands(info);
+	(*info)->infile = NULL;
+	(*info)->outfile = NULL;
+	(*info)->here_doc = NULL;
+	(*info)->append = 0;
 }
 
 int	main(int argc, char **argv, char **envp)
 {
 	(void)argv;
-	(void)envp;
 	char	*cmdline;
 	t_info	*info;
 	t_list	*list;
@@ -46,16 +66,11 @@ int	main(int argc, char **argv, char **envp)
 	if (argc != 1)
 		return (1);
 
-	info = (t_info *)malloc(sizeof(t_info));
-	ft_memset(info, 0, sizeof(info));
-	info->env = init_env(envp);
-	info->envp = set_envp(info->env);
-
-	signal(SIGINT, sig_handler);
-	signal(SIGQUIT, SIG_IGN);
+	init(&info, envp);
 	while(1)
 	{
-		cmdline = readline(BEGIN(49, 34)"fuckingshell $ "CLOSE);
+		re_init(&info);
+		cmdline = readline("ebash $ ");
 		if (!cmdline)
 			break;
 		add_history(cmdline);
@@ -67,11 +82,20 @@ int	main(int argc, char **argv, char **envp)
 		}
 		push_spaces(&cmdline);
 		list = lexer(&info->env, cmdline);
-		print_tokens(list);
+		// print_tokens(list);
+		parser(&list, info);
 		ft_lstclear(&list, free);
+		// printf("%d\n", info->append);
 		// printf("%s\n", cmdline);
 		// print_my_envp(info->envp);
 		// print_env_list(info->env);
+		// printf("%s\n", info->infile);
+		// printf("%s\n", info->outfile);
+		// printf("%s %s\n", info->commands[0].argv[0], info->commands[0].argv[1]);
+		// printf("%s %s\n", info->commands[1].argv[0], info->commands[1].argv[1]);
+
+		// TODO token validator
+		executor(info);
 		free(cmdline);
 	}
 	rl_clear_history();

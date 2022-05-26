@@ -53,3 +53,28 @@ void	set_quote(char *quote, char c)
 	else if (*quote == c)
 		*quote = 0;
 }
+
+int	find_not_pair_quote(const char *str)
+{
+	while (*str)
+	{
+		if (*str == '\'')
+		{
+			str++;
+			while (*str && *str != '\'')
+				str++;
+			if (!*str)
+				return (1);
+		}
+		if (*str == '\"')
+		{
+			str++;
+			while (*str && *str != '\"')
+				str++;
+			if (!*str)
+				return (1);
+		}
+		str++;
+	}
+	return (0);
+}

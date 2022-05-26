@@ -2,7 +2,7 @@ NAME		= minishell
 SRCS_DIR	= src/
 OBJS_DIR	= obj/
 INCS_DIR	= include
-SRCS_F		= main.c space_pusher.c env.c env_utils.c dollar_expander.c lexer.c quotes_expander.c utils_str.c debug_print.c
+SRCS_F		= main.c space_pusher.c env.c env_utils.c dollar_expander.c lexer.c quotes_expander.c utils_str.c debug_print.c parser.c parser_utils.c executor.c heredoc.c
 SRCS		= $(addprefix $(SRCS_DIR), $(SRCS_F))
 OBJS_F		= $(patsubst %.c, %.o, $(SRCS_F))
 DEPS_F		= $(patsubst %.c, %.d, $(SRCS_F))
@@ -11,7 +11,7 @@ DEPS		= $(addprefix $(OBJS_DIR), $(DEPS_F))
 
 CC			= gcc
 CFLAGS		= -Wall -Wextra -Werror -MMD
-LFLAGS		= -Llibft -lft -lreadline
+LFLAGS		= -Llibft -lft -L/Users/rjada/.brew/Cellar/readline/8.1.2/lib -lreadline
 LIB			= libft.a
 LIB_DIR		= libft/
 
