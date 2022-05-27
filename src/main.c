@@ -6,7 +6,7 @@
 /*   By: rjada <rjada@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/27 13:39:41 by rjada             #+#    #+#             */
-/*   Updated: 2022/05/27 13:43:37 by rjada            ###   ########.fr       */
+/*   Updated: 2022/05/27 18:43:57 by rjada            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,11 +14,15 @@
 
 static void	sig_handler(int sig)
 {
-	if (sig == SIGINT)
-		ft_putendl_fd("", STDOUT);
 	rl_on_new_line();
-	rl_replace_line("", 0);
 	rl_redisplay();
+	if (sig == SIGINT)
+	{
+		write(1, "  \b\b\n", 5);
+		rl_on_new_line();
+		rl_replace_line("", 0);
+		rl_redisplay();
+	}
 }
 //добавить
 void    minishell_patch(void)
@@ -134,7 +138,7 @@ int	main(int argc, char **argv, char **envp)
 
 	if (argc != 1)
 		return (1);
-    gl_exit = 0;
+    g_exit = 0;
 	init(&info, envp);
 	while(1)
 	{

@@ -6,7 +6,7 @@
 /*   By: rjada <rjada@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/27 13:41:01 by rjada             #+#    #+#             */
-/*   Updated: 2022/05/27 16:25:54 by rjada            ###   ########.fr       */
+/*   Updated: 2022/05/27 18:18:24 by rjada            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,6 +62,8 @@ typedef struct s_exec
 
 }	t_exec;
 
+int	g_exit;
+
 void	push_spaces(char **line);
 void	expand_quotes(t_env_list **env, char **line);
 void	expand_dollar(t_env_list **env, char **line, int *i);
@@ -74,6 +76,9 @@ t_env_list	*env_new(char *str);
 t_env_list	*init_env(char **envp);
 void		env_add_back(t_env_list **env, t_env_list *new);
 void		env_clear(t_env_list **env, void (*del)(void *));
+void		set_env(t_info *info, char *str);
+void		unset_env(t_info *info, char *key);
+void		env_del(t_env_list *env, void (*del)(void *));
 
 t_list	*lexer(t_env_list **env, char *line);
 void	parser(t_list **token_lst, t_info *info);

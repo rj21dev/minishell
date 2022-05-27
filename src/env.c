@@ -6,13 +6,13 @@
 /*   By: rjada <rjada@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/27 13:39:20 by rjada             #+#    #+#             */
-/*   Updated: 2022/05/27 13:39:22 by rjada            ###   ########.fr       */
+/*   Updated: 2022/05/27 17:55:05 by rjada            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
 
-/*
+
 void	set_env(t_info *info, char *str)
 {
 	int		i;
@@ -52,7 +52,7 @@ void	unset_env(t_info *info, char *key)
 		free(tmp_envp[i++]);
 	free(tmp_envp);
 	info->envp = set_envp(info->env);
-}*/
+}
 
 char	*get_env(t_env_list **env, char *key)
 {

@@ -6,7 +6,7 @@
 /*   By: rjada <rjada@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/27 13:39:32 by rjada             #+#    #+#             */
-/*   Updated: 2022/05/27 13:39:34 by rjada            ###   ########.fr       */
+/*   Updated: 2022/05/27 20:16:35 by rjada            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,8 @@ t_list	*lexer(t_env_list **env, char *line)
 	while (len--)
 	{
 		expand_quotes(env, &tokens[len]);
-		ft_lstadd_front(&ret, ft_lstnew(tokens[len]));
+		if (ft_strlen(tokens[len]))
+			ft_lstadd_front(&ret, ft_lstnew(tokens[len]));
 	}
 	free(tokens);
 	return (ret);

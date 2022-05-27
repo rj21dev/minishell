@@ -6,7 +6,7 @@
 /*   By: rjada <rjada@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/27 13:35:04 by rjada             #+#    #+#             */
-/*   Updated: 2022/05/27 17:31:46 by rjada            ###   ########.fr       */
+/*   Updated: 2022/05/27 20:13:18 by rjada            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -130,7 +130,7 @@ void	executor(t_info *info)
 		}
 		dup2(exec.fdout, 1);
 		close(exec.fdout);          
-		if (!check_cmd(info->commands->argv[i], i, info))
+		if (!check_cmd(info->commands->argv[0], i, info))
 		{
 			exec.pid = fork();
 			if (exec.pid == 0)

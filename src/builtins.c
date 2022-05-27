@@ -35,7 +35,7 @@ int pwd(t_info *info, int i)
     if (info->commands[i].argv[1])
     {
         ft_putendl_fd("pwd: too many arguments", STDERR);
-        //global_exit = 1;
+        g_exit = 1;
         return (1);
     }
     printf("This is pwd\n");
@@ -44,17 +44,35 @@ int pwd(t_info *info, int i)
 
 int export(t_info *info, int i)
 {
-    (void)i;
-    (void)info;
-    printf("This is export\n");
+    int j;
+
+    if (!info->commands[i].argv[1]) 
+        return (env(info, 0));
+    j = 1;
+    while (info->commands[i].argv[j])
+    {
+        set_env(info, info->commands[i].argv[j]);
+        j++;
+    }
     return (1);
 }
 
 int unset(t_info *info, int i)
 {
-    (void)i;
-    (void)info;
-    printf("This is unset\n");
+    int j;
+
+    if (!info->commands[i].argv[1])
+    {
+        ft_putendl_fd("unset : not enough arguments", STDERR);
+        g_exit = 1;
+        return (1);
+    }
+    j = 1;
+    while (info->commands[i].argv[j])
+    {
+        unset_env(info, info->commands[i].argv[j]);
+        j++;
+    }
     return (1);
 }
 

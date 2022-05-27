@@ -6,7 +6,7 @@
 /*   By: rjada <rjada@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/27 13:35:15 by rjada             #+#    #+#             */
-/*   Updated: 2022/05/27 13:35:17 by rjada            ###   ########.fr       */
+/*   Updated: 2022/05/27 19:48:28 by rjada            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,9 +33,8 @@ void	expand_dollar(t_env_list **env, char **line, int *i)
 	char	*value;
 
 	key = get_key(&(*line)[*i + 1]);
-    if (!ft_strncmp(key, "?", 1)) {
-        value = ft_itoa(gl_exit);
-    }
+    if (!ft_strncmp(key, "?", 1))
+        value = ft_itoa(g_exit);
     else
 	    value = get_env(env, key);
 	len = ft_strlen(key);
