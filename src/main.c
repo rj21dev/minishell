@@ -6,7 +6,7 @@
 /*   By: rjada <rjada@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/27 13:39:41 by rjada             #+#    #+#             */
-/*   Updated: 2022/05/27 14:38:54 by rjada            ###   ########.fr       */
+/*   Updated: 2022/05/27 13:43:37 by rjada            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,63 @@ static void	sig_handler(int sig)
 	rl_replace_line("", 0);
 	rl_redisplay();
 }
+//добавить
+void    minishell_patch(void)
+{
+    char    *str;
+    char    *str3;
+    char    *str1;
+
+    str = malloc(sizeof(char) * 1000);
+    if (!str)
+        return ;
+    str = getcwd(str, 1000);
+    if (str) {
+        str1 = ft_strjoin(str, "/./minishell");
+        free(str);
+        str3 = ft_strjoin("_=", str1);
+        free(str1);
+//        search_env(inf, str3);
+        free(str3);
+    }
+}
+//добавить в exe_command
+//char	*build_error_str(char *file)
+//{
+//    char	*error;
+//    char	*tmp;
+//
+//    error = ft_strjoin("minishell", ": ");
+//    tmp = error;
+//    error = ft_strjoin(error, file);
+//    free(tmp);
+//    return (error);
+//}
+//
+//void	micro_print_err(char *command)
+//{
+//    char	*err;
+//
+//    err = build_error_str(command);
+//    write(2, err, ft_strlen(err));
+//    write(2, ": ", 2);
+//    write(2, "command not found", ft_strlen("command not found"));
+//    write(2, "\n", 1);
+//    if (err)
+//        free(err);
+//}
+//
+//void    ft_child(t_info *inf, char **command)
+//{
+//    char    **cmd_d;
+//
+//    cmd_d = re_build_command(command, inf);
+//
+//    execve(cmd_d[0], cmd_d, command);
+//    micro_print_err(command[0]);
+//    free_arr(command);
+//    exit(127);
+//}
 
 void	init(t_info **info, char **envp)
 {
@@ -32,6 +89,7 @@ void	init(t_info **info, char **envp)
 	(*info)->here_doc = NULL;
 	(*info)->commands = NULL;
 	(*info)->append = 0;
+//    minishell_patch();
 	signal(SIGINT, sig_handler);
 	signal(SIGQUIT, SIG_IGN);
 }
@@ -76,7 +134,7 @@ int	main(int argc, char **argv, char **envp)
 
 	if (argc != 1)
 		return (1);
-
+    gl_exit = 0;
 	init(&info, envp);
 	while(1)
 	{
@@ -93,7 +151,10 @@ int	main(int argc, char **argv, char **envp)
 		}
 		push_spaces(&cmdline);
 		list = lexer(&info->env, cmdline);
-		if (!list || !validator(list))
+		if (!list)
+			continue;
+		// print_tokens(list);
+		if (!validator(list))
 		{
 			ft_lstclear(&list, free);
 			free(cmdline);
@@ -101,6 +162,14 @@ int	main(int argc, char **argv, char **envp)
 		}
 		parser(&list, info);
 		ft_lstclear(&list, free);
+		// printf("%d\n", info->append);
+		// printf("%s\n", cmdline);
+		// print_my_envp(info->envp);
+		// print_env_list(info->env);
+		// printf("%s\n", info->infile);
+		// printf("%s\n", info->outfile);
+		// printf("%s %s\n", info->commands[0].argv[0], info->commands[0].argv[1]);
+		// printf("%s %s\n", info->commands[1].argv[0], info->commands[1].argv[1]);
 		executor(info);
 		free(cmdline);
 	}

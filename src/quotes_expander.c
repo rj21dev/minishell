@@ -48,7 +48,7 @@ void	expand_quotes(t_env_list **env, char **line)
 	{
 		if (!should_get_quote)
 			quote = get_first_quote(&((*line)[i]));
-		if (quote != '\'' && (*line)[i] == '$' && ft_isalpha((*line)[i + 1]))
+		if (quote != '\'' && (((*line)[i] == '$') || ((*line)[i] == '$' && (*line)[i + 1] == '?')))
 			expand_dollar(env, line, &i);
 		if (quote && (*line)[i] == quote)
 		{

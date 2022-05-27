@@ -25,6 +25,7 @@ static char	*get_key(char *str)
 	return (ret);
 }
 
+//добавить
 void	expand_dollar(t_env_list **env, char **line, int *i)
 {
 	int		len;
@@ -32,7 +33,11 @@ void	expand_dollar(t_env_list **env, char **line, int *i)
 	char	*value;
 
 	key = get_key(&(*line)[*i + 1]);
-	value = get_env(env, key);
+    if (!ft_strncmp(key, "?", 1)) {
+        value = ft_itoa(gl_exit);
+    }
+    else
+	    value = get_env(env, key);
 	len = ft_strlen(key);
 	rm_substr(line, *i, len + 1);
 	free(key);

@@ -6,7 +6,7 @@
 /*   By: rjada <rjada@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/27 13:35:04 by rjada             #+#    #+#             */
-/*   Updated: 2022/05/27 16:22:16 by rjada            ###   ########.fr       */
+/*   Updated: 2022/05/27 13:35:10 by rjada            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,25 +90,6 @@ void	run_bin(int num, t_info *info)
 	}
 }
 
-int	check_cmd(char *cmd, int i, t_info *info)
-{
-	if (!ft_strncmp(cmd, "echo", ft_strlen("echo")))
-		return (echo(info, i));
-	if (!ft_strncmp(cmd, "cd", ft_strlen("cd")))
-		return (cd(info, i));
-	if (!ft_strncmp(cmd, "pwd", ft_strlen("pwd")))
-		return (pwd(info, i));
-	if (!ft_strncmp(cmd, "env", ft_strlen("pwd")))
-		return (env(info, i));
-	if (!ft_strncmp(cmd, "export", ft_strlen("export")))
-		return (export(info, i));
-	if (!ft_strncmp(cmd, "unset", ft_strlen("unset")))
-		return (unset(info, i));
-	if (!ft_strncmp(cmd, "exit", ft_strlen("exit")))
-		return (ft_exit(info, i));
-	return (0);
-}
-
 void	executor(t_info *info)
 {
 	int			i;
@@ -130,12 +111,14 @@ void	executor(t_info *info)
 		}
 		dup2(exec.fdout, 1);
 		close(exec.fdout);          
-		if (!check_cmd(info->commands->argv[i], i, info))
-		{
-			exec.pid = fork();
-			if (exec.pid == 0)
-				run_bin(i, info);
-		}
+		// if (ft_strncmp(info->commands[i].argv[0], "cd", 2) == 0)
+		// {
+		// 	///builtin
+		// }
+		// else
+		exec.pid = fork();
+		if (exec.pid == 0)
+			run_bin(i, info);
 	}
 	restore_fd(&exec);
 }
