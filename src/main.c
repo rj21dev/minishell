@@ -6,7 +6,7 @@
 /*   By: rjada <rjada@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/27 13:39:41 by rjada             #+#    #+#             */
-/*   Updated: 2022/05/27 13:43:37 by rjada            ###   ########.fr       */
+/*   Updated: 2022/05/27 14:38:54 by rjada            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,10 +93,7 @@ int	main(int argc, char **argv, char **envp)
 		}
 		push_spaces(&cmdline);
 		list = lexer(&info->env, cmdline);
-		if (!list)
-			continue;
-		// print_tokens(list);
-		if (!validator(list))
+		if (!list || !validator(list))
 		{
 			ft_lstclear(&list, free);
 			free(cmdline);
@@ -104,14 +101,6 @@ int	main(int argc, char **argv, char **envp)
 		}
 		parser(&list, info);
 		ft_lstclear(&list, free);
-		// printf("%d\n", info->append);
-		// printf("%s\n", cmdline);
-		// print_my_envp(info->envp);
-		// print_env_list(info->env);
-		// printf("%s\n", info->infile);
-		// printf("%s\n", info->outfile);
-		// printf("%s %s\n", info->commands[0].argv[0], info->commands[0].argv[1]);
-		// printf("%s %s\n", info->commands[1].argv[0], info->commands[1].argv[1]);
 		executor(info);
 		free(cmdline);
 	}

@@ -6,7 +6,7 @@
 /*   By: rjada <rjada@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/27 13:41:01 by rjada             #+#    #+#             */
-/*   Updated: 2022/05/27 13:41:07 by rjada            ###   ########.fr       */
+/*   Updated: 2022/05/27 16:25:54 by rjada            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,5 +87,13 @@ void	rm_substr(char **str, int start, int len);
 
 int		write_to_heredoc(t_info *info);
 void	executor(t_info *info);
+
+int echo(t_info *info, int i);
+int cd(t_info *info, int i);
+int pwd(t_info *info, int i);
+int export(t_info *info, int i);
+int unset(t_info *info, int i);
+int ft_exit(t_info *info, int i);
+int env(t_info *info, int i);
 
 #endif
