@@ -6,12 +6,11 @@
 /*   By: rjada <rjada@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/27 13:39:41 by rjada             #+#    #+#             */
-/*   Updated: 2022/05/27 13:39:42 by rjada            ###   ########.fr       */
+/*   Updated: 2022/05/27 13:43:37 by rjada            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
-#include "../include/debug_print.h"
 
 static void	sig_handler(int sig)
 {
