@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   executor.c                                         :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: rjada <rjada@student.42.fr>                +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/05/27 13:35:04 by rjada             #+#    #+#             */
+/*   Updated: 2022/05/27 13:35:10 by rjada            ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../include/minishell.h"
 
 int	get_out_file(int tmpout, t_info *info)
@@ -98,7 +110,12 @@ void	executor(t_info *info)
 			exec.fdin = exec.fdpipe[0];
 		}
 		dup2(exec.fdout, 1);
-		close(exec.fdout);
+		close(exec.fdout);          
+		// if (ft_strncmp(info->commands[i].argv[0], "cd", 2) == 0)
+		// {
+		// 	///builtin
+		// }
+		// else
 		exec.pid = fork();
 		if (exec.pid == 0)
 			run_bin(i, info);
