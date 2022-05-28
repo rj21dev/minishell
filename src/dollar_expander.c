@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   dollar_expander.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rjada <rjada@student.42.fr>                +#+  +:+       +#+        */
+/*   By: rjada <rjada@student.21-school.ru>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/27 13:35:15 by rjada             #+#    #+#             */
-/*   Updated: 2022/05/28 17:16:29 by rjada            ###   ########.fr       */
+/*   Updated: 2022/05/28 21:55:54 by rjada            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ static char	*get_key(char *str)
 }
 
 //добавить
-void	expand_dollar(t_env_list **env, char **line, int *i)
+void	expand_dollar(t_env_list *env, char **line, int *i)
 {
 	int		len;
 	char	*key;

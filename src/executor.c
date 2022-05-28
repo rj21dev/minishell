@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   executor.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rjada <rjada@student.42.fr>                +#+  +:+       +#+        */
+/*   By: rjada <rjada@student.21-school.ru>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/27 13:35:04 by rjada             #+#    #+#             */
-/*   Updated: 2022/05/28 15:34:57 by rjada            ###   ########.fr       */
+/*   Updated: 2022/05/28 23:05:36 by rjada            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,21 +43,22 @@ static char	**create_paths(char *cmd, char **envp)
 
 void	run_bin(int num, t_info *info)
 {
-	int			i;
+	char	**paths;
+	int		i;
 
-	info->paths = create_paths(info->commands[num].argv[0], info->envp);
-	if (!info->paths)
+	paths = create_paths(info->commands[num].argv[0], info->envp);
+	if (!paths)
 		micro_print_err(info->commands[num].argv[0], 2);
 	i = 0;
-	while (info->paths[i])
+	while (paths[i])
 	{
-		if (!access(info->paths[i], X_OK))
+		if (!access(paths[i], X_OK))
 			break ;
 		i++;
-		if (!info->paths[i])
+		if (!paths[i])
 			micro_print_err(info->commands[num].argv[0], 1);
 	}
-	execve(info->paths[i], info->commands[num].argv, info->envp);
+	execve(paths[i], info->commands[num].argv, info->envp);
 }
 
 int	check_cmd(char *cmd, int i, t_info *info)
@@ -110,6 +111,8 @@ void	executor(t_info *info)
 			exec.pid = fork();
 			if (exec.pid == 0)
 				run_bin(i, info);
+			waitpid(exec.pid, &exec.tmpret, 0);
+			g_exit = WEXITSTATUS(exec.tmpret);
 		}
 	}
 	restore_fd(&exec);

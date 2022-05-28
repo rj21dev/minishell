@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rjada <rjada@student.42.fr>                +#+  +:+       +#+        */
+/*   By: rjada <rjada@student.21-school.ru>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/27 13:39:32 by rjada             #+#    #+#             */
-/*   Updated: 2022/05/27 20:16:35 by rjada            ###   ########.fr       */
+/*   Updated: 2022/05/28 21:56:37 by rjada            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,7 @@ static int	tokeniser(char ***tokens, char *line)
 	return (i);
 }
 
-t_list	*lexer(t_env_list **env, char *line)
+t_list	*lexer(t_env_list *env, char *line)
 {
 	int		len;
 	char	**tokens;
@@ -78,5 +78,10 @@ t_list	*lexer(t_env_list **env, char *line)
 			ft_lstadd_front(&ret, ft_lstnew(tokens[len]));
 	}
 	free(tokens);
+	if (!validator(ret))
+	{
+		ft_lstclear(&ret, free);
+		ret = NULL;
+	}
 	return (ret);
 }

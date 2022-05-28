@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtins.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rjada <rjada@student.42.fr>                +#+  +:+       +#+        */
+/*   By: rjada <rjada@student.21-school.ru>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/28 17:12:45 by rjada             #+#    #+#             */
-/*   Updated: 2022/05/28 17:18:22 by rjada            ###   ########.fr       */
+/*   Updated: 2022/05/28 23:08:13 by rjada            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,7 @@ int	echo(t_info *info, int i)
 	}
 	if (should_nl)
 		ft_putchar_fd('\n', 1);
+	g_exit = 0;
 	return (1);
 }
 
@@ -39,22 +40,20 @@ int	cd(t_info *info, int i)
 	(void)i;
 	(void)info;
 	printf("This is cd\n");
+	g_exit = 0;
 	return (1);
 }
 
 int	pwd(t_info *info, int i)
 {
+	(void)info;
+	(void)i;
 	char	*path;
 
-	if (info->commands[i].argv[1])
-	{
-		ft_putendl_fd("pwd: too many arguments", STDERR);
-		g_exit = 1;
-		return (1);
-	}
 	path = getcwd(NULL, 0);
 	ft_putendl_fd(path, STDOUT);
 	free(path);
+	g_exit = 0;
 	return (1);
 }
 
@@ -74,6 +73,7 @@ int	unset(t_info *info, int i)
 		unset_env(info, info->commands[i].argv[j]);
 		j++;
 	}
+	g_exit = 0;
 	return (1);
 }
  //TODO global_exit
@@ -102,5 +102,6 @@ int	env(t_info *info, int i)
 		ft_putendl_fd(tmp->full, STDOUT);
 		tmp = tmp->next;
 	}
+	g_exit = 0;
 	return (1);
 }

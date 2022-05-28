@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rjada <rjada@student.42.fr>                +#+  +:+       +#+        */
+/*   By: rjada <rjada@student.21-school.ru>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/27 13:39:41 by rjada             #+#    #+#             */
-/*   Updated: 2022/05/28 17:07:01 by rjada            ###   ########.fr       */
+/*   Updated: 2022/05/28 22:45:30 by rjada            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,49 +91,49 @@ void	re_init(t_info **info)
 	(*info)->append = 0;
 }
 
+void	shell_loop(t_info **info)
+{
+	while(1)
+	{
+		re_init(info);
+		(*info)->line = readline("minishell $ ");
+		if (!(*info)->line)
+			break;
+		add_history((*info)->line);
+		if (find_not_pair_quote((*info)->line))
+		{
+			ft_putendl_fd("minishell: unmatched quotes", STDERR);
+			free((*info)->line);
+			continue;
+		}
+		push_spaces(&((*info)->line));
+		(*info)->tk_list = lexer((*info)->env, (*info)->line);
+		if (!(*info)->tk_list)
+		{
+			free((*info)->line);
+			continue;
+		}
+		parser(&((*info)->tk_list), *info);
+		ft_lstclear(&((*info)->tk_list), free);
+		executor(*info);
+		free((*info)->line);
+	}
+}
+
 int	main(int argc, char **argv, char **envp)
 {
 	(void)argv;
-	char	*cmdline;
 	t_info	*info;
-	t_list	*list;
 
 	if (argc != 1)
 		return (1);
     g_exit = 0;
 	init(&info, envp);
-	while(1)
-	{
-		re_init(&info);
-		cmdline = readline("minishell $ ");
-		if (!cmdline)
-			break;
-		add_history(cmdline);
-		if (find_not_pair_quote(cmdline))
-		{
-			ft_putendl_fd("minishell: unmatched quotes", STDERR);
-			free(cmdline);
-			continue;
-		}
-		push_spaces(&cmdline);
-		list = lexer(&info->env, cmdline);
-		if (!list)
-			continue;
-		if (!validator(list))
-		{
-			ft_lstclear(&list, free);
-			free(cmdline);
-			continue;
-		}
-		parser(&list, info);
-		ft_lstclear(&list, free);
-		executor(info);
-		free(cmdline);
-	}
+	shell_loop(&info);
 	rl_clear_history();
 	ft_split_free(info->envp);
 	env_clear(&info->env, free);
-	free_commands(&info);
+	// free_commands(&info);
 	free(info);
 	ft_putendl_fd("exit", STDOUT);
 	// exit(0);

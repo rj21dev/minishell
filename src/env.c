@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rjada <rjada@student.42.fr>                +#+  +:+       +#+        */
+/*   By: rjada <rjada@student.21-school.ru>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/27 13:39:20 by rjada             #+#    #+#             */
-/*   Updated: 2022/05/28 17:18:06 by rjada            ###   ########.fr       */
+/*   Updated: 2022/05/28 21:59:04 by rjada            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,11 +53,11 @@ void	unset_env(t_info *info, char *key)
 	info->envp = set_envp(info->env);
 }
 
-char	*get_env(t_env_list **env, char *key)
+char	*get_env(t_env_list *env, char *key)
 {
 	t_env_list	*tmp;
 
-	tmp = *env;
+	tmp = env;
 	while (tmp)
 	{
 		if (ft_strlen(key) == ft_strlen(tmp->key) \

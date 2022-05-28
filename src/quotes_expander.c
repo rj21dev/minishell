@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   quotes_expander.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rjada <rjada@student.42.fr>                +#+  +:+       +#+        */
+/*   By: rjada <rjada@student.21-school.ru>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/27 13:40:08 by rjada             #+#    #+#             */
-/*   Updated: 2022/05/28 17:17:32 by rjada            ###   ########.fr       */
+/*   Updated: 2022/05/28 21:55:30 by rjada            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ static char	get_first_quote(char *line)
 	return (ret);
 }
 
-void	expand_quotes(t_env_list **env, char **line)
+void	expand_quotes(t_env_list *env, char **line)
 {
 	int		i;
 	int		should_get_quote;
