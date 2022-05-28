@@ -12,7 +12,7 @@ DEPS		= $(addprefix $(OBJS_DIR), $(DEPS_F))
 
 CC			= gcc
 CFLAGS		= -Wall -Wextra -Werror -MMD
-LFLAGS		= -Llibft -lft -L/Users/rjada/.brew/Cellar/readline/8.1.2/lib -lreadline
+LFLAGS		= -Llibft -lft -L/Users/$(USER)/.brew/Cellar/readline/8.1.2/lib -lreadline
 LIB			= libft.a
 LIB_DIR		= libft/
 
