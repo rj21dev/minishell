@@ -6,7 +6,7 @@
 /*   By: rjada <rjada@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/27 13:39:41 by rjada             #+#    #+#             */
-/*   Updated: 2022/05/28 13:42:30 by rjada            ###   ########.fr       */
+/*   Updated: 2022/05/28 17:07:01 by rjada            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,6 +73,7 @@ void	free_commands(t_info **info)
 			ft_split_free((*info)->commands[i].argv);
 			i++;
 		}
+		free((*info)->commands);
 	}
 }
 
@@ -84,8 +85,6 @@ void	re_init(t_info **info)
 		free((*info)->outfile);
 	if ((*info)->here_doc)
 		free((*info)->here_doc);
-	// if ((*info)->commands)
-	// 	free_commands(info);
 	(*info)->infile = NULL;
 	(*info)->outfile = NULL;
 	(*info)->here_doc = NULL;
@@ -134,6 +133,7 @@ int	main(int argc, char **argv, char **envp)
 	rl_clear_history();
 	ft_split_free(info->envp);
 	env_clear(&info->env, free);
+	free_commands(&info);
 	free(info);
 	ft_putendl_fd("exit", STDOUT);
 	// exit(0);

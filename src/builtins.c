@@ -32,30 +32,34 @@ int cd(t_info *info, int i)
 
 int pwd(t_info *info, int i)
 {
-    if (info->commands[i].argv[1])
+    char	*path;
+
+	if (info->commands[i].argv[1])
     {
         ft_putendl_fd("pwd: too many arguments", STDERR);
         g_exit = 1;
         return (1);
     }
-    printf("This is pwd\n");
+	path = getcwd(NULL, 0);
+	ft_putendl_fd(path, STDOUT);
+	free(path);
     return (1);
 }
 
-int export(t_info *info, int i)
-{
-    int j;
+// int export(t_info *info, int i)
+// {
+//     int j;
 
-    if (!info->commands[i].argv[1]) 
-        return (env(info, 0));
-    j = 1;
-    while (info->commands[i].argv[j])
-    {
-        set_env(info, info->commands[i].argv[j]);
-        j++;
-    }
-    return (1);
-}
+//     if (!info->commands[i].argv[1]) 
+//         return (env(info, 0));
+//     j = 1;
+//     while (info->commands[i].argv[j])
+//     {
+//         set_env(info, info->commands[i].argv[j]);
+//         j++;
+//     }
+//     return (1);
+// }
 
 int unset(t_info *info, int i)
 {
