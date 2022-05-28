@@ -6,12 +6,11 @@
 /*   By: rjada <rjada@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/27 13:39:20 by rjada             #+#    #+#             */
-/*   Updated: 2022/05/27 17:55:05 by rjada            ###   ########.fr       */
+/*   Updated: 2022/05/28 17:18:06 by rjada            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
-
 
 void	set_env(t_info *info, char *str)
 {

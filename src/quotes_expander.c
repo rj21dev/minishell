@@ -6,7 +6,7 @@
 /*   By: rjada <rjada@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/27 13:40:08 by rjada             #+#    #+#             */
-/*   Updated: 2022/05/27 13:40:10 by rjada            ###   ########.fr       */
+/*   Updated: 2022/05/28 17:17:32 by rjada            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,8 @@ void	expand_quotes(t_env_list **env, char **line)
 	{
 		if (!should_get_quote)
 			quote = get_first_quote(&((*line)[i]));
-		if (quote != '\'' && (((*line)[i] == '$') || ((*line)[i] == '$' && (*line)[i + 1] == '?')))
+		if (quote != '\'' && (((*line)[i] == '$') || \
+			((*line)[i] == '$' && (*line)[i + 1] == '?')))
 			expand_dollar(env, line, &i);
 		if (quote && (*line)[i] == quote)
 		{

@@ -6,7 +6,7 @@
 /*   By: rjada <rjada@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/27 13:40:05 by rjada             #+#    #+#             */
-/*   Updated: 2022/05/27 13:40:06 by rjada            ###   ########.fr       */
+/*   Updated: 2022/05/28 17:19:25 by rjada            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,8 +43,8 @@ static void	skip_here_doc(t_list **token_lst, t_info *info)
 
 static t_cmd	*find_pipes(t_list **token_lst, t_info *info)
 {
-	t_cmd   *pipes;
-	t_list  *temp;
+	t_cmd	*pipes;
+	t_list	*temp;
 
 	temp = *token_lst;
 	if (ft_strncmp(temp->content, "<", 1) == 0)
@@ -65,16 +65,16 @@ static void	find_out_file(t_list *token_lst, t_info *info)
 	{
 		if (ft_strncmp(temp->content, ">", ft_strlen(temp->content)) == 0)
 			info->outfile = ft_strdup(temp->next->content);
-        else if (ft_strncmp(temp->content, ">>", ft_strlen(temp->content)) == 0)
-        {
+		else if (ft_strncmp(temp->content, ">>", ft_strlen(temp->content)) == 0)
+		{
 			info->outfile = ft_strdup(temp->next->content);
-            info->append = 1;
-        }
+			info->append = 1;
+		}
 		temp = temp->next;
 	}
 }
 
-static void find_in_file(t_list *token_lst, t_info *info)
+static void	find_in_file(t_list *token_lst, t_info *info)
 {
 	t_list	*temp;
 
