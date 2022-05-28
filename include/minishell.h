@@ -6,7 +6,7 @@
 /*   By: rjada <rjada@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/27 13:41:01 by rjada             #+#    #+#             */
-/*   Updated: 2022/05/27 18:18:24 by rjada            ###   ########.fr       */
+/*   Updated: 2022/05/28 15:36:09 by rjada            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,6 +91,10 @@ void	add_substr(char **str, int start, char *substr);
 void	rm_substr(char **str, int start, int len);
 
 int		write_to_heredoc(t_info *info);
+void	micro_print_err(char *command, int i);
+int		get_out_file(int tmpout, t_info *info);
+int		save_fd_set_input(t_info *info, t_exec *exec);
+void	restore_fd(t_exec *exec);
 void	executor(t_info *info);
 
 int echo(t_info *info, int i);

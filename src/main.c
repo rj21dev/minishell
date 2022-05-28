@@ -6,7 +6,7 @@
 /*   By: rjada <rjada@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/27 13:39:41 by rjada             #+#    #+#             */
-/*   Updated: 2022/05/27 18:43:57 by rjada            ###   ########.fr       */
+/*   Updated: 2022/05/28 13:42:30 by rjada            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,43 +44,6 @@ void    minishell_patch(void)
         free(str3);
     }
 }
-//добавить в exe_command
-//char	*build_error_str(char *file)
-//{
-//    char	*error;
-//    char	*tmp;
-//
-//    error = ft_strjoin("minishell", ": ");
-//    tmp = error;
-//    error = ft_strjoin(error, file);
-//    free(tmp);
-//    return (error);
-//}
-//
-//void	micro_print_err(char *command)
-//{
-//    char	*err;
-//
-//    err = build_error_str(command);
-//    write(2, err, ft_strlen(err));
-//    write(2, ": ", 2);
-//    write(2, "command not found", ft_strlen("command not found"));
-//    write(2, "\n", 1);
-//    if (err)
-//        free(err);
-//}
-//
-//void    ft_child(t_info *inf, char **command)
-//{
-//    char    **cmd_d;
-//
-//    cmd_d = re_build_command(command, inf);
-//
-//    execve(cmd_d[0], cmd_d, command);
-//    micro_print_err(command[0]);
-//    free_arr(command);
-//    exit(127);
-//}
 
 void	init(t_info **info, char **envp)
 {
@@ -143,13 +106,13 @@ int	main(int argc, char **argv, char **envp)
 	while(1)
 	{
 		re_init(&info);
-		cmdline = readline("ebash $ ");
+		cmdline = readline("minishell $ ");
 		if (!cmdline)
 			break;
 		add_history(cmdline);
 		if (find_not_pair_quote(cmdline))
 		{
-			ft_putendl_fd("Error: unmatched quotes", STDERR);
+			ft_putendl_fd("minishell: unmatched quotes", STDERR);
 			free(cmdline);
 			continue;
 		}
@@ -157,7 +120,6 @@ int	main(int argc, char **argv, char **envp)
 		list = lexer(&info->env, cmdline);
 		if (!list)
 			continue;
-		// print_tokens(list);
 		if (!validator(list))
 		{
 			ft_lstclear(&list, free);
@@ -166,14 +128,6 @@ int	main(int argc, char **argv, char **envp)
 		}
 		parser(&list, info);
 		ft_lstclear(&list, free);
-		// printf("%d\n", info->append);
-		// printf("%s\n", cmdline);
-		// print_my_envp(info->envp);
-		// print_env_list(info->env);
-		// printf("%s\n", info->infile);
-		// printf("%s\n", info->outfile);
-		// printf("%s %s\n", info->commands[0].argv[0], info->commands[0].argv[1]);
-		// printf("%s %s\n", info->commands[1].argv[0], info->commands[1].argv[1]);
 		executor(info);
 		free(cmdline);
 	}

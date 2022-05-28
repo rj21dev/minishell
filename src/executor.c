@@ -6,53 +6,11 @@
 /*   By: rjada <rjada@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/27 13:35:04 by rjada             #+#    #+#             */
-/*   Updated: 2022/05/27 20:13:18 by rjada            ###   ########.fr       */
+/*   Updated: 2022/05/28 15:34:57 by rjada            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
-
-int	get_out_file(int tmpout, t_info *info)
-{
-	int	fdout;
-
-	if (info->outfile)
-	{
-		if (info->append > 0)
-			fdout = open(info->outfile, O_WRONLY | O_CREAT | O_APPEND,
-					S_IWUSR | S_IRUSR | S_IROTH | S_IRGRP);
-		else
-			fdout = open(info->outfile, O_WRONLY | O_CREAT | O_TRUNC,
-					S_IWUSR | S_IRUSR | S_IROTH | S_IRGRP);
-	}
-	else
-		fdout = dup(tmpout);
-	return (fdout);
-}
-
-void	restore_fd(t_exec *exec)
-{
-	dup2(exec->tmpin, 0);
-	dup2(exec->tmpout, 1);
-	close(exec->tmpin);
-	close(exec->tmpout);
-	waitpid(exec->pid, &exec->tmpret, 0);
-}
-
-int	save_fd_set_input(t_info *info, t_exec *exec)
-{
-	int	fdin;
-
-	exec->tmpin = dup(0);
-	exec->tmpout = dup(1);
-	if (info->infile)
-		fdin = open(info->infile, O_RDONLY);
-	else if (info->here_doc != 0)
-		fdin = write_to_heredoc(info);
-	else
-		fdin = dup(exec->tmpin);
-	return (fdin);
-}
 
 static char	**create_paths(char *cmd, char **envp)
 {
@@ -61,9 +19,15 @@ static char	**create_paths(char *cmd, char **envp)
 	char	**full_paths;
 
 	i = 0;
-	while (envp[i] && ft_strncmp(envp[i], "PATH=", 5) != 0)
+	paths = NULL;
+	while (envp[i])
+	{
+		if (ft_strncmp(envp[i], "PATH=", 5) == 0)
+			paths = ft_split(envp[i] + 5, ':');
 		i++;
-	paths = ft_split(envp[i] + 5, ':');
+	}
+	if (!paths)
+		return (NULL);
 	i = 0;
 	while (paths[i])
 		i++;
@@ -82,12 +46,18 @@ void	run_bin(int num, t_info *info)
 	int			i;
 
 	info->paths = create_paths(info->commands[num].argv[0], info->envp);
+	if (!info->paths)
+		micro_print_err(info->commands[num].argv[0], 2);
 	i = 0;
 	while (info->paths[i])
 	{
-		execve(info->paths[i], info->commands[num].argv, info->envp);
+		if (!access(info->paths[i], X_OK))
+			break ;
 		i++;
+		if (!info->paths[i])
+			micro_print_err(info->commands[num].argv[0], 1);
 	}
+	execve(info->paths[i], info->commands[num].argv, info->envp);
 }
 
 int	check_cmd(char *cmd, int i, t_info *info)
@@ -109,6 +79,22 @@ int	check_cmd(char *cmd, int i, t_info *info)
 	return (0);
 }
 
+static void	redirects(t_exec *exec, t_info *info, int i)
+{
+	dup2(exec->fdin, 0);
+	close(exec->fdin);
+	if (i == info->cmd_num)
+		exec->fdout = get_out_file(exec->tmpout, info);
+	else
+	{
+		pipe(exec->fdpipe);
+		exec->fdout = exec->fdpipe[1];
+		exec->fdin = exec->fdpipe[0];
+	}
+	dup2(exec->fdout, 1);
+	close(exec->fdout);
+}
+
 void	executor(t_info *info)
 {
 	int			i;
@@ -118,18 +104,7 @@ void	executor(t_info *info)
 	i = -1;
 	while (info->cmd_num >= ++i)
 	{
-		dup2(exec.fdin, 0);
-		close(exec.fdin);
-		if (i == info->cmd_num)
-			exec.fdout = get_out_file(exec.tmpout, info);
-		else
-		{
-			pipe(exec.fdpipe);
-			exec.fdout = exec.fdpipe[1];
-			exec.fdin = exec.fdpipe[0];
-		}
-		dup2(exec.fdout, 1);
-		close(exec.fdout);          
+		redirects(&exec, info, i);
 		if (!check_cmd(info->commands->argv[0], i, info))
 		{
 			exec.pid = fork();
