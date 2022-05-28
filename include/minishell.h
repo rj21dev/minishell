@@ -100,9 +100,13 @@ void	executor(t_info *info);
 int echo(t_info *info, int i);
 int cd(t_info *info, int i);
 int pwd(t_info *info, int i);
-int export(t_info *info, int i);
+int	export(t_info *info, int i);
 int unset(t_info *info, int i);
 int ft_exit(t_info *info, int i);
 int env(t_info *info, int i);
 
+
+void	printf_expot_env(t_info *info);
+void	free_two_str(char *s1, char *s2);
+int	ft_strcmp(const char *s1, const char *s2);
 #endif
