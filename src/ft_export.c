@@ -47,9 +47,9 @@ void	ex_env_addendum(t_env_list *env_ls, char *replec)
 		;
 	str = ft_substr(input, 0, i + 1);
 	str1 = ft_substr(replec, i + 1, ft_strlen(replec) - i);
+    free(input);
 	input = ft_strjoin(str, str1);
 	free_two_str(str, str1);
-	free(env_ls->full);
 	env_ls->full = input;
 }
 
@@ -67,6 +67,8 @@ int	search_env_norm(t_info *inf, char *str)
 		if (str2 && str1 && !ft_strcmp(str1, str2))
 		{
 			ex_env_addendum(tmp, str);
+			free(str1);
+			free(str2);
 			return (1);
 		}
 		if (str2)
@@ -128,7 +130,9 @@ int	export(t_info *info, int i)
 			}
 			j++;
 		}
-		info->envp = set_envp(info->env);
+        ft_split_free(info->envp);
+        info->envp = set_envp(info->env);
 	}
+	g_exit = 0;
 	return (1);
 }

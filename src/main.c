@@ -25,7 +25,7 @@ static void	sig_handler(int sig)
 	}
 }
 //добавить
-void    minishell_patch(void)
+void    minishell_patch(t_info *info)
 {
     char    *str;
     char    *str3;
@@ -40,7 +40,7 @@ void    minishell_patch(void)
         free(str);
         str3 = ft_strjoin("_=", str1);
         free(str1);
-//        search_env(inf, str3);
+        search_env(info, str3);
         free(str3);
     }
 }
@@ -56,7 +56,7 @@ void	init(t_info **info, char **envp)
 	(*info)->here_doc = NULL;
 	(*info)->commands = NULL;
 	(*info)->append = 0;
-//    minishell_patch();
+    minishell_patch(*info);
 	signal(SIGINT, sig_handler);
 	signal(SIGQUIT, SIG_IGN);
 }
@@ -129,12 +129,13 @@ int	main(int argc, char **argv, char **envp)
 		return (1);
     g_exit = 0;
 	init(&info, envp);
+    shell_level(info);
 	shell_loop(&info);
 	rl_clear_history();
 	ft_split_free(info->envp);
 	env_clear(&info->env, free);
-	// free_commands(&info);
+	free_commands(&info);
 	free(info);
 	ft_putendl_fd("exit", STDOUT);
-	// exit(0);
+	 exit(0);
 }

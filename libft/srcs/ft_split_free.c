@@ -17,10 +17,11 @@ void	ft_split_free(char **split)
 	size_t	i;
 
 	i = 0;
-	while (split[i])
-	{
-		free(split[i]);
-		++i;
-	}
-	free(split);
+    if (*split) {
+        while (split[i]) {
+            free(split[i]);
+            ++i;
+        }
+        free(split);
+    }
 }

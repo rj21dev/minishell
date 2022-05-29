@@ -105,6 +105,9 @@ int unset(t_info *info, int i);
 int ft_exit(t_info *info, int i);
 int env(t_info *info, int i);
 
+char	*search_env_util(char *input);
+void	shell_level(t_info *inf);
+int	search_env(t_info *inf, char *str);
 void	printf_expot_env(t_info *info);
 void	free_two_str(char *s1, char *s2);
 int		ft_strcmp(const char *s1, const char *s2);

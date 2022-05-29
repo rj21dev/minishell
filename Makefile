@@ -3,7 +3,8 @@ SRCS_DIR	= src/
 OBJS_DIR	= obj/
 INCS_DIR	= include
 SRCS_F		= main.c space_pusher.c env.c env_utils.c dollar_expander.c lexer.c quotes_expander.c utils_str.c \
-					parser.c parser_utils.c executor.c heredoc.c validator.c builtins.c executor_utils.c ft_export.c ft_export_util.c
+					parser.c parser_utils.c executor.c heredoc.c validator.c builtins.c executor_utils.c ft_export.c \
+					ft_export_util.c ft_exit.c	shlv.c
 SRCS		= $(addprefix $(SRCS_DIR), $(SRCS_F))
 OBJS_F		= $(patsubst %.c, %.o, $(SRCS_F))
 DEPS_F		= $(patsubst %.c, %.d, $(SRCS_F))

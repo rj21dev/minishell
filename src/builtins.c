@@ -61,28 +61,13 @@ int	unset(t_info *info, int i)
 {
 	int	j;
 
-	if (!info->commands[i].argv[1])
-	{
-		ft_putendl_fd("unset : not enough arguments", STDERR);
-		g_exit = 1;
-		return (1);
-	}
-	j = 1;
+    j = 1;
 	while (info->commands[i].argv[j])
 	{
 		unset_env(info, info->commands[i].argv[j]);
 		j++;
 	}
 	g_exit = 0;
-	return (1);
-}
- //TODO global_exit
-int	ft_exit(t_info *info, int i)
-{
-	if (info->commands[i].argv[1])
-		exit(ft_atoi(info->commands[i].argv[1]));
-	else
-		exit(0);
 	return (1);
 }
 
@@ -93,7 +78,7 @@ int	env(t_info *info, int i)
 	if (info->commands[i].argv[1])
 	{
 		ft_putendl_fd("env: too many arguments", STDERR);
-		//global_exit = 1;
+		g_exit = 1;
 		return (1);
 	}
 	tmp = info->env;
