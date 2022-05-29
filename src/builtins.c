@@ -35,15 +35,6 @@ int	echo(t_info *info, int i)
 	return (1);
 }
 
-int	cd(t_info *info, int i)
-{
-	(void)i;
-	(void)info;
-	printf("This is cd\n");
-	g_exit = 0;
-	return (1);
-}
-
 int	pwd(t_info *info, int i)
 {
 	char	*path;

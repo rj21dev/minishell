@@ -41,7 +41,7 @@ static int	check_cmd(char *cmd, int i, t_info *info)
 		return (echo(info, i));
 	if (ft_strlen(cmd) == ft_strlen("cd") \
 		&& !ft_strncmp(cmd, "cd", ft_strlen("cd")))
-		return (cd(info, i));
+		return (ft_cd(info, i));
 	if (ft_strlen(cmd) == ft_strlen("pwd") \
 		&& !ft_strncmp(cmd, "pwd", ft_strlen("pwd")))
 		return (pwd(info, i));

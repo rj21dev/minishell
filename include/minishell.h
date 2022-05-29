@@ -99,7 +99,7 @@ char		**create_paths(char *cmd, char **envp);
 void		executor(t_info *info);
 
 int			echo(t_info *info, int i);
-int			cd(t_info *info, int i);
+int	ft_cd(t_info *info, int i);
 int			pwd(t_info *info, int i);
 int			export(t_info *info, int i);
 int			unset(t_info *info, int i);
