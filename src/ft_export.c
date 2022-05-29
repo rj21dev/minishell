@@ -6,7 +6,7 @@
 /*   By: eabradol <eabradol@student.21-school.ru    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/28 16:38:05 by eabradol          #+#    #+#             */
-/*   Updated: 2022/05/28 16:38:07 by eabradol         ###   ########.fr       */
+/*   Updated: 2022/05/29 11:32:31 by eabradol         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ void	ex_env_addendum(t_env_list *env_ls, char *replec)
 	env_ls->full = input;
 }
 
-int	search_env_unil(t_info *inf, char *str)
+int	search_env_norm(t_info *inf, char *str)
 {
 	char		*str1;
 	char		*str2;
@@ -67,14 +67,14 @@ int	search_env_unil(t_info *inf, char *str)
 		if (str2 && str1 && !ft_strcmp(str1, str2))
 		{
 			ex_env_addendum(tmp, str);
-			free(str2);
-			free(str1);
 			return (1);
 		}
-		free(str2);
+		if (str2)
+			free(str2);
 		tmp = tmp->next;
 	}
-	free(str1);
+	if (str1)
+		free(str1);
 	return (0);
 }
 
@@ -85,22 +85,22 @@ int	search_env(t_info *inf, char *str)
 	t_env_list	*tmp;
 	int			flag;
 
+	if (!ft_strchr(str, '='))
+		return (0);
 	tmp = inf->env;
-	flag = 0;
 	str1 = search_env_util(str);
-	flag = search_env_unil(inf, str);
+	flag = search_env_norm(inf, str);
+	while (tmp->next)
+		tmp = tmp->next;
 	str2 = search_env_util(tmp->full);
 	if (str2 && str1 && !ft_strcmp(str1, str2))
 	{
 		flag = 1;
 		ex_env_addendum(tmp, str);
 	}
-	if (flag != 1)
-	{
-		free_two_str(str2, str1);
-		return (1);
-	}
 	free_two_str(str2, str1);
+	if (flag == 0)
+		return (1);
 	return (0);
 }
 
