@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtins.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rjada <rjada@student.21-school.ru>         +#+  +:+       +#+        */
+/*   By: rjada <rjada@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/28 17:12:45 by rjada             #+#    #+#             */
-/*   Updated: 2022/05/28 23:08:13 by rjada            ###   ########.fr       */
+/*   Updated: 2022/05/29 16:13:18 by rjada            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,10 +46,10 @@ int	cd(t_info *info, int i)
 
 int	pwd(t_info *info, int i)
 {
-	(void)info;
-	(void)i;
 	char	*path;
 
+	(void)info;
+	(void)i;
 	path = getcwd(NULL, 0);
 	ft_putendl_fd(path, STDOUT);
 	free(path);
@@ -61,7 +61,7 @@ int	unset(t_info *info, int i)
 {
 	int	j;
 
-    j = 1;
+	j = 1;
 	while (info->commands[i].argv[j])
 	{
 		unset_env(info, info->commands[i].argv[j]);

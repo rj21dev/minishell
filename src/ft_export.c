@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_export.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: eabradol <eabradol@student.21-school.ru    +#+  +:+       +#+        */
+/*   By: rjada <rjada@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/28 16:38:05 by eabradol          #+#    #+#             */
-/*   Updated: 2022/05/29 11:32:31 by eabradol         ###   ########.fr       */
+/*   Updated: 2022/05/29 16:35:45 by rjada            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,9 +47,11 @@ void	ex_env_addendum(t_env_list *env_ls, char *replec)
 		;
 	str = ft_substr(input, 0, i + 1);
 	str1 = ft_substr(replec, i + 1, ft_strlen(replec) - i);
-    free(input);
+	free(input);
+	free(env_ls->value);
+	env_ls->value = str1;
 	input = ft_strjoin(str, str1);
-	free_two_str(str, str1);
+	free(str);
 	env_ls->full = input;
 }
 
@@ -130,8 +132,8 @@ int	export(t_info *info, int i)
 			}
 			j++;
 		}
-        ft_split_free(info->envp);
-        info->envp = set_envp(info->env);
+		ft_split_free(info->envp);
+		info->envp = set_envp(info->env);
 	}
 	g_exit = 0;
 	return (1);

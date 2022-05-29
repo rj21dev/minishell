@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   executor_utils.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rjada <rjada@student.21-school.ru>         +#+  +:+       +#+        */
+/*   By: rjada <rjada@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/28 13:45:38 by rjada             #+#    #+#             */
-/*   Updated: 2022/05/28 22:59:45 by rjada            ###   ########.fr       */
+/*   Updated: 2022/05/29 16:00:09 by rjada            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,8 +66,6 @@ void	restore_fd(t_exec *exec)
 	dup2(exec->tmpout, 1);
 	close(exec->tmpin);
 	close(exec->tmpout);
-	// waitpid(exec->pid, &exec->tmpret, 0);
-	// g_exit = WEXITSTATUS(exec->tmpret);
 }
 
 int	save_fd_set_input(t_info *info, t_exec *exec)

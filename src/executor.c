@@ -6,42 +6,13 @@
 /*   By: rjada <rjada@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/27 13:35:04 by rjada             #+#    #+#             */
-/*   Updated: 2022/05/29 14:20:42 by rjada            ###   ########.fr       */
+/*   Updated: 2022/05/29 16:17:40 by rjada            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
 
-static char	**create_paths(char *cmd, char **envp)
-{
-	int		i;
-	char	**paths;
-	char	**full_paths;
-
-	i = 0;
-	paths = NULL;
-	while (envp[i])
-	{
-		if (ft_strncmp(envp[i], "PATH=", 5) == 0)
-			paths = ft_split(envp[i] + 5, ':');
-		i++;
-	}
-	if (!paths)
-		return (NULL);
-	i = 0;
-	while (paths[i])
-		i++;
-	full_paths = malloc(sizeof(char *) * (i + 2));
-	cmd = ft_strjoin("/", cmd);
-	i = -1;
-	while (paths[++i])
-		full_paths[i] = ft_strjoin(paths[i], cmd);
-	full_paths[i] = cmd;
-	full_paths[i + 1] = NULL;
-	return (full_paths);
-}
-
-void	run_bin(int num, t_info *info)
+static void	run_bin(int num, t_info *info)
 {
 	char	**paths;
 	int		i;
@@ -63,7 +34,7 @@ void	run_bin(int num, t_info *info)
 	execve(paths[i], info->commands[num].argv, info->envp);
 }
 
-int	check_cmd(char *cmd, int i, t_info *info)
+static int	check_cmd(char *cmd, int i, t_info *info)
 {
 	if (!ft_strncmp(cmd, "echo", ft_strlen("echo")))
 		return (echo(info, i));
@@ -98,6 +69,17 @@ static void	redirects(t_exec *exec, t_info *info, int i)
 	close(exec->fdout);
 }
 
+static void	check_status(t_exec exec)
+{
+	if (WIFSIGNALED(exec.tmpret))
+	{
+		if (WTERMSIG(exec.tmpret) == SIGQUIT)
+			ft_putendl_fd("Quit: 3", STDOUT);
+		else if (WTERMSIG(exec.tmpret) == SIGINT)
+			ft_putendl_fd("", STDOUT);
+	}
+}
+
 void	executor(t_info *info)
 {
 	int			i;
@@ -116,13 +98,7 @@ void	executor(t_info *info)
 			if (exec.pid == 0)
 				run_bin(i, info);
 			waitpid(exec.pid, &exec.tmpret, 0);
-			if (WIFSIGNALED(exec.tmpret))
-			{
-				if (WTERMSIG(exec.tmpret) == SIGQUIT)
-					ft_putendl_fd("Quit: 3", STDOUT);
-				else if (WTERMSIG(exec.tmpret) == SIGINT)
-					ft_putendl_fd("", STDOUT);
-			}
+			check_status(exec);
 			g_exit = WEXITSTATUS(exec.tmpret);
 		}
 	}

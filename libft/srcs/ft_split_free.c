@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_split_free.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rjada <rjada@student.21-school.ru>         +#+  +:+       +#+        */
+/*   By: rjada <rjada@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/04 23:54:20 by rjada             #+#    #+#             */
-/*   Updated: 2022/02/12 23:36:00 by rjada            ###   ########.fr       */
+/*   Updated: 2022/05/29 16:11:00 by rjada            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,11 +17,13 @@ void	ft_split_free(char **split)
 	size_t	i;
 
 	i = 0;
-    if (*split) {
-        while (split[i]) {
-            free(split[i]);
-            ++i;
-        }
-        free(split);
-    }
+	if (*split)
+	{
+		while (split[i])
+		{
+			free(split[i]);
+			++i;
+		}
+		free(split);
+	}
 }

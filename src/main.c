@@ -6,7 +6,7 @@
 /*   By: rjada <rjada@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/27 13:39:41 by rjada             #+#    #+#             */
-/*   Updated: 2022/05/29 14:19:50 by rjada            ###   ########.fr       */
+/*   Updated: 2022/05/29 16:50:36 by rjada            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,25 +24,27 @@ static void	sig_handler(int sig)
 		rl_redisplay();
 	}
 }
-//добавить
-void    minishell_patch(t_info *info)
-{
-    char    *str;
-    char    *str3;
-    char    *str1;
 
-    str = malloc(sizeof(char) * 1000);
-    if (!str)
-        return ;
-    str = getcwd(str, 1000);
-    if (str) {
-        str1 = ft_strjoin(str, "/./minishell");
-        free(str);
-        str3 = ft_strjoin("_=", str1);
-        free(str1);
-        search_env(info, str3);
-        free(str3);
-    }
+//добавить
+void	minishell_patch(t_info *info)
+{
+	char	*str;
+	char	*str3;
+	char	*str1;
+
+	str = malloc(sizeof(char) * 1000);
+	if (!str)
+		return ;
+	str = getcwd(str, 1000);
+	if (str)
+	{
+		str1 = ft_strjoin(str, "/./minishell");
+		free(str);
+		str3 = ft_strjoin("_=", str1);
+		free(str1);
+		search_env(info, str3);
+		free(str3);
+	}
 }
 
 void	init(t_info **info, char **envp)
@@ -56,7 +58,7 @@ void	init(t_info **info, char **envp)
 	(*info)->here_doc = NULL;
 	(*info)->commands = NULL;
 	(*info)->append = 0;
-    minishell_patch(*info);
+	minishell_patch(*info);
 }
 
 void	free_commands(t_info **info)
@@ -93,25 +95,25 @@ void	re_init(t_info **info)
 
 void	shell_loop(t_info **info)
 {
-	while(1)
+	while (1)
 	{
 		re_init(info);
 		(*info)->line = readline("minishell $ ");
 		if (!(*info)->line)
-			break;
+			break ;
 		add_history((*info)->line);
 		if (find_not_pair_quote((*info)->line))
 		{
 			ft_putendl_fd("minishell: unmatched quotes", STDERR);
 			free((*info)->line);
-			continue;
+			continue ;
 		}
 		push_spaces(&((*info)->line));
 		(*info)->tk_list = lexer((*info)->env, (*info)->line);
 		if (!(*info)->tk_list)
 		{
 			free((*info)->line);
-			continue;
+			continue ;
 		}
 		parser(&((*info)->tk_list), *info);
 		ft_lstclear(&((*info)->tk_list), free);
@@ -122,19 +124,19 @@ void	shell_loop(t_info **info)
 
 int	main(int argc, char **argv, char **envp)
 {
-	(void)argv;
 	t_info	*info;
 
+	(void)argv;
 	if (argc != 1)
 		return (1);
-    g_exit = 0;
+	g_exit = 0;
 	init(&info, envp);
-    shell_level(info);
+	shell_level(info);
 	shell_loop(&info);
 	rl_clear_history();
 	ft_split_free(info->envp);
 	env_clear(&info->env, free);
-	free_commands(&info);
+	// free_commands(&info);
 	free(info);
 	ft_putendl_fd("exit", STDOUT);
 	exit(0);
