@@ -6,7 +6,7 @@
 /*   By: rjada <rjada@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/27 13:35:04 by rjada             #+#    #+#             */
-/*   Updated: 2022/05/29 16:17:40 by rjada            ###   ########.fr       */
+/*   Updated: 2022/05/29 18:42:01 by rjada            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,19 +36,26 @@ static void	run_bin(int num, t_info *info)
 
 static int	check_cmd(char *cmd, int i, t_info *info)
 {
-	if (!ft_strncmp(cmd, "echo", ft_strlen("echo")))
+	if (ft_strlen(cmd) == ft_strlen("echo") \
+		&& !ft_strncmp(cmd, "echo", ft_strlen("echo")))
 		return (echo(info, i));
-	if (!ft_strncmp(cmd, "cd", ft_strlen("cd")))
+	if (ft_strlen(cmd) == ft_strlen("cd") \
+		&& !ft_strncmp(cmd, "cd", ft_strlen("cd")))
 		return (cd(info, i));
-	if (!ft_strncmp(cmd, "pwd", ft_strlen("pwd")))
+	if (ft_strlen(cmd) == ft_strlen("pwd") \
+		&& !ft_strncmp(cmd, "pwd", ft_strlen("pwd")))
 		return (pwd(info, i));
-	if (!ft_strncmp(cmd, "env", ft_strlen("pwd")))
+	if (ft_strlen(cmd) == ft_strlen("env") \
+		&& !ft_strncmp(cmd, "env", ft_strlen("env")))
 		return (env(info, i));
-	if (!ft_strncmp(cmd, "export", ft_strlen("export")))
+	if (ft_strlen(cmd) == ft_strlen("export") \
+		&& !ft_strncmp(cmd, "export", ft_strlen("export")))
 		return (export(info, i));
-	if (!ft_strncmp(cmd, "unset", ft_strlen("unset")))
+	if (ft_strlen(cmd) == ft_strlen("unset") \
+		&& !ft_strncmp(cmd, "unset", ft_strlen("unset")))
 		return (unset(info, i));
-	if (!ft_strncmp(cmd, "exit", ft_strlen("exit")))
+	if (ft_strlen(cmd) == ft_strlen("exit") \
+		&& !ft_strncmp(cmd, "exit", ft_strlen("exit")))
 		return (ft_exit(info, i));
 	return (0);
 }
