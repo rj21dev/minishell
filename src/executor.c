@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   executor.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rjada <rjada@student.21-school.ru>         +#+  +:+       +#+        */
+/*   By: rjada <rjada@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/27 13:35:04 by rjada             #+#    #+#             */
-/*   Updated: 2022/05/28 23:05:36 by rjada            ###   ########.fr       */
+/*   Updated: 2022/05/29 14:20:42 by rjada            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,6 +58,8 @@ void	run_bin(int num, t_info *info)
 		if (!paths[i])
 			micro_print_err(info->commands[num].argv[0], 1);
 	}
+	signal(SIGINT, SIG_DFL);
+	signal(SIGQUIT, SIG_DFL);
 	execve(paths[i], info->commands[num].argv, info->envp);
 }
 
@@ -106,12 +108,21 @@ void	executor(t_info *info)
 	while (info->cmd_num >= ++i)
 	{
 		redirects(&exec, info, i);
+		signal(SIGINT, SIG_IGN);
+		signal(SIGQUIT, SIG_IGN);
 		if (!check_cmd(info->commands->argv[0], i, info))
 		{
 			exec.pid = fork();
 			if (exec.pid == 0)
 				run_bin(i, info);
 			waitpid(exec.pid, &exec.tmpret, 0);
+			if (WIFSIGNALED(exec.tmpret))
+			{
+				if (WTERMSIG(exec.tmpret) == SIGQUIT)
+					ft_putendl_fd("Quit: 3", STDOUT);
+				else if (WTERMSIG(exec.tmpret) == SIGINT)
+					ft_putendl_fd("", STDOUT);
+			}
 			g_exit = WEXITSTATUS(exec.tmpret);
 		}
 	}

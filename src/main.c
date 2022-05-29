@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rjada <rjada@student.21-school.ru>         +#+  +:+       +#+        */
+/*   By: rjada <rjada@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/27 13:39:41 by rjada             #+#    #+#             */
-/*   Updated: 2022/05/28 22:45:30 by rjada            ###   ########.fr       */
+/*   Updated: 2022/05/29 14:19:50 by rjada            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,8 +57,6 @@ void	init(t_info **info, char **envp)
 	(*info)->commands = NULL;
 	(*info)->append = 0;
     minishell_patch(*info);
-	signal(SIGINT, sig_handler);
-	signal(SIGQUIT, SIG_IGN);
 }
 
 void	free_commands(t_info **info)
@@ -79,6 +77,8 @@ void	free_commands(t_info **info)
 
 void	re_init(t_info **info)
 {
+	signal(SIGINT, sig_handler);
+	signal(SIGQUIT, SIG_IGN);
 	if ((*info)->infile)
 		free((*info)->infile);
 	if ((*info)->outfile)
@@ -137,5 +137,5 @@ int	main(int argc, char **argv, char **envp)
 	free_commands(&info);
 	free(info);
 	ft_putendl_fd("exit", STDOUT);
-	 exit(0);
+	exit(0);
 }
