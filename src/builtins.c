@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtins.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rjada <rjada@student.42.fr>                +#+  +:+       +#+        */
+/*   By: eabradol <eabradol@student.21-school.ru    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/28 17:12:45 by rjada             #+#    #+#             */
-/*   Updated: 2022/05/29 16:13:18 by rjada            ###   ########.fr       */
+/*   Updated: 2022/05/30 18:53:50 by eabradol         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,6 +53,14 @@ int	unset(t_info *info, int i)
 	int	j;
 
 	j = 1;
+	if (ft_strchr(info->commands[i].argv[1], '='))
+	{
+		ft_putstr_fd("unset: `", STDERR);
+		ft_putstr_fd(info->commands[i].argv[1], STDERR);
+		ft_putendl_fd("': not a valid identifier", STDERR);
+		g_exit = 1;
+		return (1);
+	}
 	while (info->commands[i].argv[j])
 	{
 		unset_env(info, info->commands[i].argv[j]);
