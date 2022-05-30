@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_export.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rjada <rjada@student.42.fr>                +#+  +:+       +#+        */
+/*   By: eabradol <eabradol@student.21-school.ru    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/28 16:38:05 by eabradol          #+#    #+#             */
-/*   Updated: 2022/05/29 16:35:45 by rjada            ###   ########.fr       */
+/*   Updated: 2022/05/30 14:16:03 by eabradol         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,33 +108,25 @@ int	search_env(t_info *inf, char *str)
 	return (0);
 }
 
-int	export(t_info *info, int i)
+int	export_norm(t_info *info, int i)
 {
 	int	j;
 
-	if (!info->commands[i].argv[1])
-		printf_expot_env(info);
-	else
+	j = 1;
+	while (info->commands[i].argv[j])
 	{
-		j = 1;
-		while (info->commands[i].argv[j])
+		if (ft_isalpha(info->commands[i].argv[j][0]))
 		{
-			if (ft_isalpha(info->commands[i].argv[j][0]))
-			{
-				if (1 == search_env(info, info->commands[i].argv[j]))
-					set_env(info, info->commands[i].argv[j]);
-			}
-			else
-			{
-				ft_putendl_fd("export : not enough arguments", STDERR);
-				g_exit = 1;
-				return (1);
-			}
-			j++;
+			if (1 == search_env(info, info->commands[i].argv[j]))
+				set_env(info, info->commands[i].argv[j]);
 		}
-		ft_split_free(info->envp);
-		info->envp = set_envp(info->env);
+		else
+		{
+			ft_putendl_fd("export : not enough arguments", STDERR);
+			g_exit = 1;
+			return (1);
+		}
+		j++;
 	}
-	g_exit = 0;
-	return (1);
+	return (0);
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_exit.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rjada <rjada@student.42.fr>                +#+  +:+       +#+        */
+/*   By: eabradol <eabradol@student.21-school.ru    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/29 16:18:46 by rjada             #+#    #+#             */
-/*   Updated: 2022/05/29 16:26:15 by rjada            ###   ########.fr       */
+/*   Updated: 2022/05/30 14:11:46 by eabradol         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,6 +88,5 @@ int	ft_exit(t_info *info, int i)
 		g_exit = 1;
 		return (1);
 	}
-	// free_arr(code);
-    return (1);
+	return (1);
 }

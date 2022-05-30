@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   shlv.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rjada <rjada@student.42.fr>                +#+  +:+       +#+        */
+/*   By: eabradol <eabradol@student.21-school.ru    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/29 16:30:12 by rjada             #+#    #+#             */
-/*   Updated: 2022/05/29 16:45:41 by rjada            ###   ########.fr       */
+/*   Updated: 2022/05/30 14:12:39 by eabradol         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,8 +63,6 @@ static void	shell_level_pars(t_info *inf, char *str)
 			search_env(inf, str_add);
 			free(str_add);
 		}
-//            (*tmp)->str = ex_shlvl_add(tmp, ft_itoa(number + 1));
-//      print_error("", "shell level (1000) too high, resetting to 1");
 	}
 	else
 		search_env(inf, "SHLVL=1");

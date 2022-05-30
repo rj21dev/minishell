@@ -3,27 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rjada <rjada@student.42.fr>                +#+  +:+       +#+        */
+/*   By: eabradol <eabradol@student.21-school.ru    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/27 13:39:41 by rjada             #+#    #+#             */
-/*   Updated: 2022/05/29 16:50:36 by rjada            ###   ########.fr       */
+/*   Updated: 2022/05/30 14:20:57 by eabradol         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
-
-static void	sig_handler(int sig)
-{
-	rl_on_new_line();
-	rl_redisplay();
-	if (sig == SIGINT)
-	{
-		write(1, "  \b\b\n", 5);
-		rl_on_new_line();
-		rl_replace_line("", 0);
-		rl_redisplay();
-	}
-}
 
 //добавить
 void	minishell_patch(t_info *info)
@@ -61,22 +48,6 @@ void	init(t_info **info, char **envp)
 	minishell_patch(*info);
 }
 
-void	free_commands(t_info **info)
-{
-	int	i;
-
-	i = 0;
-	if ((*info)->commands)
-	{
-		while ((*info)->commands[i].argv)
-		{
-			ft_split_free((*info)->commands[i].argv);
-			i++;
-		}
-		free((*info)->commands);
-	}
-}
-
 void	re_init(t_info **info)
 {
 	signal(SIGINT, sig_handler);
@@ -91,6 +62,7 @@ void	re_init(t_info **info)
 	(*info)->outfile = NULL;
 	(*info)->here_doc = NULL;
 	(*info)->append = 0;
+	free_commands(info);
 }
 
 void	shell_loop(t_info **info)
@@ -136,7 +108,6 @@ int	main(int argc, char **argv, char **envp)
 	rl_clear_history();
 	ft_split_free(info->envp);
 	env_clear(&info->env, free);
-	// free_commands(&info);
 	free(info);
 	ft_putendl_fd("exit", STDOUT);
 	exit(0);

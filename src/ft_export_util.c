@@ -6,7 +6,7 @@
 /*   By: eabradol <eabradol@student.21-school.ru    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/28 16:38:08 by eabradol          #+#    #+#             */
-/*   Updated: 2022/05/28 16:38:12 by eabradol         ###   ########.fr       */
+/*   Updated: 2022/05/30 14:19:48 by eabradol         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,4 +45,18 @@ void	printf_expot_env(t_info *info)
 	ft_putstr_fd("declare -x ", STDERR);
 	ft_putstr_fd(tmp->key, STDERR);
 	ft_putstr_fd("\n", STDERR);
+}
+
+int	export(t_info *info, int i)
+{
+	if (!info->commands[i].argv[1])
+		printf_expot_env(info);
+	else
+	{
+		export_norm(info, i);
+		ft_split_free(info->envp);
+		info->envp = set_envp(info->env);
+	}
+	g_exit = 0;
+	return (1);
 }

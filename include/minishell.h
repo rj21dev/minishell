@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rjada <rjada@student.42.fr>                +#+  +:+       +#+        */
+/*   By: eabradol <eabradol@student.21-school.ru    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/27 13:41:01 by rjada             #+#    #+#             */
-/*   Updated: 2022/05/29 16:16:42 by rjada            ###   ########.fr       */
+/*   Updated: 2022/05/30 14:21:56 by eabradol         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,18 +99,22 @@ char		**create_paths(char *cmd, char **envp);
 void		executor(t_info *info);
 
 int			echo(t_info *info, int i);
-int	ft_cd(t_info *info, int i);
+int			ft_cd(t_info *info, int i);
 int			pwd(t_info *info, int i);
 int			export(t_info *info, int i);
 int			unset(t_info *info, int i);
 int			ft_exit(t_info *info, int i);
 int			env(t_info *info, int i);
 
+void		sig_handler(int sig);
+int			cd_error(t_info *info, int i);
+int			export_norm(t_info *info, int i);
 char		*search_env_util(char *input);
 void		shell_level(t_info *inf);
 int			search_env(t_info *inf, char *str);
 void		printf_expot_env(t_info *info);
 void		free_two_str(char *s1, char *s2);
 int			ft_strcmp(const char *s1, const char *s2);
+void		free_commands(t_info **info);
 
 #endif
