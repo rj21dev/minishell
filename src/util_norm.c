@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   util_norm.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: eabradol <eabradol@student.21-school.ru    +#+  +:+       +#+        */
+/*   By: rjada <rjada@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/29 16:30:12 by rjada             #+#    #+#             */
-/*   Updated: 2022/05/30 14:22:26 by eabradol         ###   ########.fr       */
+/*   Updated: 2022/05/30 19:15:40 by rjada            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,9 +43,23 @@ void	free_commands(t_info **info)
 	{
 		while (i < (*info)->cmd_num + 1)
 		{
-			ft_split_free((*info)->commands[i].argv);
+			if ((*info)->commands[i].argv)
+				ft_split_free((*info)->commands[i].argv);
 			i++;
 		}
-		free((*info)->commands);
+		if ((*info)->commands)
+			free((*info)->commands);
 	}
+}
+
+void	history(t_info **info)
+{
+	if (ft_strlen((*info)->line))
+		add_history((*info)->line);
+}
+
+void	destructor(t_info **info)
+{
+	free((*info)->line);
+	free_commands(info);
 }

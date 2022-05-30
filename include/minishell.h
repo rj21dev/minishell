@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: eabradol <eabradol@student.21-school.ru    +#+  +:+       +#+        */
+/*   By: rjada <rjada@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/27 13:41:01 by rjada             #+#    #+#             */
-/*   Updated: 2022/05/30 14:21:56 by eabradol         ###   ########.fr       */
+/*   Updated: 2022/05/30 19:18:04 by rjada            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -116,5 +116,7 @@ void		printf_expot_env(t_info *info);
 void		free_two_str(char *s1, char *s2);
 int			ft_strcmp(const char *s1, const char *s2);
 void		free_commands(t_info **info);
+void		destructor(t_info **info);
+void		history(t_info **info);
 
 #endif

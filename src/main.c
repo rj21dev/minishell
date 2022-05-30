@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: eabradol <eabradol@student.21-school.ru    +#+  +:+       +#+        */
+/*   By: rjada <rjada@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/27 13:39:41 by rjada             #+#    #+#             */
-/*   Updated: 2022/05/30 14:20:57 by eabradol         ###   ########.fr       */
+/*   Updated: 2022/05/30 19:15:25 by rjada            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,6 @@ void	re_init(t_info **info)
 	(*info)->outfile = NULL;
 	(*info)->here_doc = NULL;
 	(*info)->append = 0;
-	free_commands(info);
 }
 
 void	shell_loop(t_info **info)
@@ -73,7 +72,7 @@ void	shell_loop(t_info **info)
 		(*info)->line = readline("minishell $ ");
 		if (!(*info)->line)
 			break ;
-		add_history((*info)->line);
+		history(info);
 		if (find_not_pair_quote((*info)->line))
 		{
 			ft_putendl_fd("minishell: unmatched quotes", STDERR);
@@ -90,7 +89,7 @@ void	shell_loop(t_info **info)
 		parser(&((*info)->tk_list), *info);
 		ft_lstclear(&((*info)->tk_list), free);
 		executor(*info);
-		free((*info)->line);
+		destructor(info);
 	}
 }
 

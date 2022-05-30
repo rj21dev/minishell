@@ -6,7 +6,7 @@
 /*   By: rjada <rjada@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/27 13:35:04 by rjada             #+#    #+#             */
-/*   Updated: 2022/05/29 18:42:01 by rjada            ###   ########.fr       */
+/*   Updated: 2022/05/30 18:56:24 by rjada            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,15 +76,23 @@ static void	redirects(t_exec *exec, t_info *info, int i)
 	close(exec->fdout);
 }
 
-static void	check_status(t_exec exec)
+int	check_status(t_exec exec)
 {
+	waitpid(exec.pid, &exec.tmpret, 0);
 	if (WIFSIGNALED(exec.tmpret))
 	{
 		if (WTERMSIG(exec.tmpret) == SIGQUIT)
+		{
 			ft_putendl_fd("Quit: 3", STDOUT);
+			return (131);
+		}
 		else if (WTERMSIG(exec.tmpret) == SIGINT)
+		{
 			ft_putendl_fd("", STDOUT);
+			return (130);
+		}
 	}
+	return (WEXITSTATUS(exec.tmpret));
 }
 
 void	executor(t_info *info)
@@ -104,9 +112,7 @@ void	executor(t_info *info)
 			exec.pid = fork();
 			if (exec.pid == 0)
 				run_bin(i, info);
-			waitpid(exec.pid, &exec.tmpret, 0);
-			check_status(exec);
-			g_exit = WEXITSTATUS(exec.tmpret);
+			g_exit = check_status(exec);
 		}
 	}
 	restore_fd(&exec);
